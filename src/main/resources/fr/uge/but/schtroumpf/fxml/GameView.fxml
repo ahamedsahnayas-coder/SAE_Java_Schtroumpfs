@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.uge.but.schtroumpf.controller.GameController"
+            styleClass="game-root">
+    <top>
+        <VBox spacing="10" styleClass="top-bar">
+            <padding>
+                <Insets top="18" right="24" bottom="16" left="24"/>
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="18">
+                <Label text="Conseil des Schtroumpfs" styleClass="screen-title"/>
+                <Label fx:id="monthLabel" styleClass="month-label"/>
+                <Label fx:id="actionCountLabel" styleClass="pill-label"/>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <Button text="Restart" onAction="#handleRestart" styleClass="secondary-button"/>
+                <Button text="Next Month" onAction="#handleNextMonth" styleClass="primary-button"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="event-banner">
+                <Label text="Current event:" styleClass="event-prefix"/>
+                <Label fx:id="eventNameLabel" styleClass="event-name"/>
+                <Label fx:id="eventDescriptionLabel" wrapText="true" styleClass="event-description"/>
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <HBox spacing="18" styleClass="content-zone">
+            <padding>
+                <Insets top="18" right="24" bottom="18" left="24"/>
+            </padding>
+            <VBox spacing="14" minWidth="330" prefWidth="360" styleClass="panel">
+                <Label text="Resources" styleClass="panel-title"/>
+                <GridPane fx:id="resourceGrid" hgap="8" vgap="8"/>
+                <Separator/>
+                <Label text="Crisis status" styleClass="panel-title"/>
+                <Label fx:id="crisisLabel" wrapText="true" styleClass="crisis-label"/>
+            </VBox>
+            <VBox spacing="14" HBox.hgrow="ALWAYS" styleClass="panel">
+                <Label text="Council actions" styleClass="panel-title"/>
+                <Label fx:id="actionMessageLabel" text="Choose up to two council actions before ending the month." wrapText="true" styleClass="message-label"/>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="clean-scroll">
+                    <content>
+                        <VBox fx:id="actionContainer" spacing="12"/>
+                    </content>
+                </ScrollPane>
+            </VBox>
+            <VBox spacing="14" minWidth="300" prefWidth="340" styleClass="panel">
+                <Label text="History" styleClass="panel-title"/>
+                <TextArea fx:id="historyArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS" styleClass="history-area"/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>
