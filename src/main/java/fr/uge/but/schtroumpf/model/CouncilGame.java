@@ -23,11 +23,12 @@ public class CouncilGame {
     private int currentMonth = 1;
     private int actionsUsedThisMonth;
     private Evenement currentEvent;
+    private boolean monthStarted;
     private boolean gameOver;
     private GameResult result;
 
     public CouncilGame() {
-        startMonth();
+        history.add("Month 1 - Review the village resources before starting the month.");
     }
 
     public SmurfVillage getVillage() {
@@ -54,6 +55,10 @@ public class CouncilGame {
         return currentEvent;
     }
 
+    public boolean isMonthStarted() {
+        return monthStarted;
+    }
+
     public List<String> getHistory() {
         return Collections.unmodifiableList(history);
     }
@@ -74,6 +79,9 @@ public class CouncilGame {
         if (gameOver) {
             return new ActionResult(false, "The game is already finished.");
         }
+        if (!monthStarted) {
+            return new ActionResult(false, "Start the month before choosing actions.");
+        }
         if (actionsUsedThisMonth >= MAX_ACTIONS_PER_MONTH) {
             return new ActionResult(false, "No council actions remain this month.");
         }
@@ -89,6 +97,10 @@ public class CouncilGame {
 
     public void finishMonth() {
         if (gameOver) {
+            return;
+        }
+        if (!monthStarted) {
+            startMonth();
             return;
         }
 
@@ -117,10 +129,13 @@ public class CouncilGame {
         }
 
         currentMonth++;
-        startMonth();
+        monthStarted = false;
+        currentEvent = null;
+        history.add("Month " + currentMonth + " - Review the village resources before starting the month.");
     }
 
     private void startMonth() {
+        monthStarted = true;
         actionsUsedThisMonth = 0;
         activeCrises.clear();
         village.produceResources();

@@ -26,6 +26,7 @@ public class GameController {
     @FXML private Label eventDescriptionLabel;
     @FXML private Label actionMessageLabel;
     @FXML private Label crisisLabel;
+    @FXML private Button nextMonthButton;
     @FXML private GridPane resourceGrid;
     @FXML private VBox actionContainer;
     @FXML private TextArea historyArea;
@@ -44,12 +45,17 @@ public class GameController {
 
     @FXML
     private void handleNextMonth(ActionEvent event) {
+        boolean wasStarted = game.isMonthStarted();
         game.finishMonth();
         if (game.isGameOver()) {
             navigator.showEndGame(game);
             return;
         }
-        actionMessageLabel.setText("A new month begins. Production and event have been applied.");
+        if (wasStarted) {
+            actionMessageLabel.setText("A new month begins. Review resources before applying production and event.");
+        } else {
+            actionMessageLabel.setText("Production and event have been applied. Choose council actions.");
+        }
         refreshView();
     }
 
@@ -68,9 +74,17 @@ public class GameController {
 
     private void refreshHeader() {
         monthLabel.setText("Month " + game.getCurrentMonth() + " / " + game.getMaxMonths());
-        actionCountLabel.setText("Council actions left: " + game.getRemainingActions());
-        eventNameLabel.setText(game.getCurrentEvent().getName());
-        eventDescriptionLabel.setText(game.getCurrentEvent().getDescription());
+        if (game.isMonthStarted()) {
+            actionCountLabel.setText("Council actions left: " + game.getRemainingActions());
+            eventNameLabel.setText(game.getCurrentEvent().getName());
+            eventDescriptionLabel.setText(game.getCurrentEvent().getDescription());
+            nextMonthButton.setText(game.getCurrentMonth() == game.getMaxMonths() ? "Finish Month" : "Next Month");
+        } else {
+            actionCountLabel.setText("Council actions left: start the month first");
+            eventNameLabel.setText("No event yet");
+            eventDescriptionLabel.setText("Review resources, then apply production and draw this month's event.");
+            nextMonthButton.setText("Apply Production & Event");
+        }
     }
 
     private void refreshResources() {
@@ -126,7 +140,7 @@ public class GameController {
         details.setWrapText(true);
         row.getStyleClass().add("action-row");
 
-        button.setDisable(game.getRemainingActions() == 0 || !action.canExecute(game.getVillage()));
+        button.setDisable(!game.isMonthStarted() || game.getRemainingActions() == 0 || !action.canExecute(game.getVillage()));
         button.setOnAction(event -> {
             ActionResult result = game.executeAction(character, action);
             actionMessageLabel.setText(result.message());

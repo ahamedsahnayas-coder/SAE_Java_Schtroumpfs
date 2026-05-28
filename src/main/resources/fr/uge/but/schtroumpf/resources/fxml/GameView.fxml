@@ -27,7 +27,7 @@
                 <Label fx:id="actionCountLabel" styleClass="pill-label"/>
                 <HBox HBox.hgrow="ALWAYS"/>
                 <Button text="Restart" onAction="#handleRestart" styleClass="secondary-button"/>
-                <Button text="Next Month" onAction="#handleNextMonth" styleClass="primary-button"/>
+                <Button fx:id="nextMonthButton" text="Next Month" onAction="#handleNextMonth" styleClass="primary-button"/>
             </HBox>
             <HBox spacing="10" alignment="CENTER_LEFT" styleClass="event-banner">
                 <Label text="Current event:" styleClass="event-prefix"/>
