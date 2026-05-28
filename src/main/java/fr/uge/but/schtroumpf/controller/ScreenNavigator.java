@@ -1,6 +1,7 @@
 package fr.uge.but.schtroumpf.controller;
 
 import fr.uge.but.schtroumpf.model.CouncilGame;
+import fr.uge.but.schtroumpf.view.ViewFiles;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,8 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ScreenNavigator {
-    private static final String CSS_PATH = "/fr/uge/but/schtroumpf/css/style.css";
-
     private final Stage stage;
 
     public ScreenNavigator(Stage stage) {
@@ -60,12 +59,12 @@ public class ScreenNavigator {
     }
 
     private FXMLLoader load(String fileName) {
-        return new FXMLLoader(getClass().getResource("/fr/uge/but/schtroumpf/fxml/" + fileName));
+        return new FXMLLoader(getClass().getResource(ViewFiles.FXML_DIRECTORY + fileName));
     }
 
     private void setScene(Parent root) {
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(ViewFiles.CSS).toExternalForm());
         stage.setScene(scene);
     }
 }

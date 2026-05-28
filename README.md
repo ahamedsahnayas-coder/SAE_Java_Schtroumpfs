@@ -21,9 +21,10 @@ No database, network, REST API, Spring, Hibernate, or external game engine is us
 src/main/java/fr/uge/but/schtroumpf
 ├── controller
 ├── launcher
-└── model
+├── model
+└── view
 
-src/main/resources/fr/uge/but/schtroumpf
+src/main/resources/fr/uge/but/schtroumpf/resources
 ├── css
 ├── fxml
 └── images
